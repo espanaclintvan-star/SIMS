@@ -1,0 +1,17 @@
+{
+  "name": "sims",
+  "version": "1.0.0",
+  
+"scripts": {
+  "gui": "nodemon --watch src --ext java --exec \"javac -d bin src/*.java && java -cp bin main\""
+
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
+
