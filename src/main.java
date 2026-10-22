@@ -1,9 +1,10 @@
 
 
-public class main {
-	
- public static void main (String [] args) {
-	 new Login();
+import javax.swing.SwingUtilities;
 
- 	}
- }
+public class main {
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Login::new);
+    }
+}

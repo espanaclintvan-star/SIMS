@@ -1,132 +1,112 @@
-
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
+import javax.swing.SwingConstants;
 
 public class Login extends JFrame implements ActionListener {
-    
-    JTextField text1; 
-    JTextField text2;
-    JButton button;
-    JLabel label1;
-    JLabel label2;
-    JCheckBox checkbox1;
-    JCheckBox checkbox2;
-    ImageIcon logo;
-    JLabel label3;
-    
+    private static final long serialVersionUID = 1L;
 
-    Login(){
-     text1 = new JTextField();
-	 text2 = new JTextField();
-	 button = new JButton("login");
-	 label1 = new JLabel("Email: ");
-	 label2 = new JLabel("Password: ");
-	 checkbox1 = new JCheckBox("Student");
-	 checkbox2 = new JCheckBox("Admin");
-	 logo = new ImageIcon("logo_edited.png");
-	 label3 = new JLabel(logo);
+    private final JTextField emailField = new JTextField();
+    private final JPasswordField passwordField = new JPasswordField();
+    private final JButton loginButton = new JButton("Log in");
+    private final JRadioButton studentRole = new JRadioButton("Student");
+    private final JRadioButton adminRole = new JRadioButton("Admin");
+    private final ImageIcon logo = new ImageIcon("logo_edited.png");
 
-	 this.setLayout(null);
-	 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 this.setResizable(false);
-	 this.setSize(500, 300);
-	 
+    Login() {
+        setTitle("Student Information Management System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(500, 390);
+        setLocationRelativeTo(null);
+        setLayout(null);
+        getContentPane().setBackground(new Color(0, 0, 98));
+        setIconImage(logo.getImage());
 
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(185, 5, 130, 110);
+        add(logoLabel);
 
-	 text1.setBounds(120, 120, 250, 30);
-	 text2.setBounds(120, 170, 250, 30);
-	 text1.setBorder(null);
-	 text2.setBorder(null);
+        JLabel title = new JLabel("Student Information Management System", SwingConstants.CENTER);
+        title.setBounds(35, 105, 430, 30);
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("SansSerif", Font.BOLD, 16));
+        add(title);
 
-	 label1.setBounds(80, 128, 50, 10);
-	 label2.setBounds(50, 178, 70, 10);
-	 label3.setBounds(180, -10,130, 130);
-	 label1.setForeground(Color.WHITE);
-	 label2.setForeground(Color.WHITE);
-	
+        addLabel("Email:", 75, 163);
+        emailField.setBounds(150, 155, 275, 32);
+        add(emailField);
 
-	 button.setBounds(200, 228, 80, 30);
-	 button.setFocusPainted(false);
-	 button.setForeground(Color.WHITE); 
-	 button.setBackground(new Color(120, 0, 98));
-	 button.setBorder(null);
-     button.addActionListener(this);
-	 
-	 checkbox1.setBounds(120, 210, 90, 10);
-	 checkbox2.setBounds(210, 210, 90, 10);
-	 checkbox1.setBackground(new Color(0, 0, 98));
-	 checkbox2.setBackground(new Color(0, 0, 98));
-	 checkbox1.setForeground(Color.WHITE);
-	 checkbox2.setForeground(Color.WHITE);
-     
-     
-	 
+        addLabel("Password:", 75, 211);
+        passwordField.setBounds(150, 203, 275, 32);
+        add(passwordField);
 
-	 this.getContentPane().setBackground(new Color(0, 0, 98));
-	 this.setTitle("Student Information Management System");
-	 this.setIconImage(logo.getImage());
+        ButtonGroup roles = new ButtonGroup();
+        roles.add(studentRole);
+        roles.add(adminRole);
+        styleRole(studentRole);
+        styleRole(adminRole);
+        studentRole.setBounds(150, 247, 105, 28);
+        adminRole.setBounds(260, 247, 95, 28);
+        studentRole.setSelected(true);
+        add(studentRole);
+        add(adminRole);
 
-	 this.add(label1);
-	 this.add(text1);
-	 this.add(label2);
-	 this.add(text2);
-	 this.add(button);
-	 this.add(checkbox1);
-	 this.add(checkbox2);
-	 this.add(label3);
-     this.setVisible(true);
+        loginButton.setBounds(185, 292, 130, 36);
+        loginButton.setFocusPainted(false);
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setBackground(new Color(120, 0, 98));
+        loginButton.setBorder(null);
+        loginButton.addActionListener(this);
+        add(loginButton);
+        getRootPane().setDefaultButton(loginButton);
+
+        setVisible(true);
     }
 
-    @Override 
-    public void actionPerformed (ActionEvent e){
-        if(e.getSource()==button){
-            String username = text1.getText();
-            String password = text2.getText();
+    private void addLabel(String text, int x, int y) {
+        JLabel label = new JLabel(text);
+        label.setBounds(x, y, 75, 25);
+        label.setForeground(Color.WHITE);
+        add(label);
+    }
 
-            if(username.isEmpty()&&password.isEmpty()){
-                System.out.println("must enter username and password");
-                return;
-            }else if(username.isEmpty()){
-                System.out.println("must enter username");
-                return;
-            }else if(password.isEmpty()){
-                System.out.println("must enter password");
-                return;
-            }
+    private void styleRole(JRadioButton role) {
+        role.setOpaque(false);
+        role.setForeground(Color.WHITE);
+        role.setFocusPainted(false);
+    }
 
-            String checkbox="";
-            if(checkbox1.isSelected()){
-                checkbox+="student";
-            }
-            if(checkbox2.isSelected()){
-                checkbox+="admin";
-            }
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        String email = emailField.getText().trim();
+        String password = new String(passwordField.getPassword());
 
-            switch(checkbox){
-                case "student":
-                    System.out.println("STUDENT");
-                    break;
-                case "admin":
-                    System.out.println("ADMIN");
-                    break;
-                case "studentadmin":
-                    System.out.println("error, pick one");
-                    break;
-                default:
-                    System.out.println("must enter one");
-            }
-
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter your email and password.", "Missing information",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
+        boolean isAdmin = adminRole.isSelected();
+        if (!isAdmin && !Dashboard.hasStudent(email)) {
+            JOptionPane.showMessageDialog(this,
+                    "No student account was found for that email. Try student@example.com.",
+                    "Student not found", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-
+        new Dashboard(email, isAdmin);
+        dispose();
     }
 }
