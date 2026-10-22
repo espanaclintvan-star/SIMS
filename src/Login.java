@@ -24,6 +24,7 @@ public class Login extends JFrame implements ActionListener {
     
 
     Login(){
+    
      text1 = new JTextField();
 	 text2 = new JTextField();
 	 button = new JButton("login");
@@ -34,10 +35,10 @@ public class Login extends JFrame implements ActionListener {
 	 logo = new ImageIcon("logo_edited.png");
 	 label3 = new JLabel(logo);
 
-	 this.setLayout(null);
-	 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 this.setResizable(false);
-	 this.setSize(500, 300);
+	 setLayout(null);
+	 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	 setResizable(false);
+	 setSize(500, 300);
 	 
 
 
@@ -54,7 +55,7 @@ public class Login extends JFrame implements ActionListener {
 	
 
 	 button.setBounds(200, 228, 80, 30);
-	 button.setFocusPainted(false);
+	 button.setFocusable(false);
 	 button.setForeground(Color.WHITE); 
 	 button.setBackground(new Color(120, 0, 98));
 	 button.setBorder(null);
@@ -70,19 +71,19 @@ public class Login extends JFrame implements ActionListener {
      
 	 
 
-	 this.getContentPane().setBackground(new Color(0, 0, 98));
-	 this.setTitle("Student Information Management System");
-	 this.setIconImage(logo.getImage());
+	 getContentPane().setBackground(new Color(0, 0, 98));
+	 setTitle("Student Information Management System");
+	 setIconImage(logo.getImage());
 
-	 this.add(label1);
-	 this.add(text1);
-	 this.add(label2);
-	 this.add(text2);
-	 this.add(button);
-	 this.add(checkbox1);
-	 this.add(checkbox2);
-	 this.add(label3);
-     this.setVisible(true);
+	 add(label1);
+	 add(text1);
+	 add(label2);
+	 add(text2);
+	 add(button);
+	 add(checkbox1);
+	 add(checkbox2);
+	 add(label3);
+     setVisible(true);
     }
 
     @Override 
@@ -112,7 +113,8 @@ public class Login extends JFrame implements ActionListener {
 
             switch(checkbox){
                 case "student":
-                    System.out.println("STUDENT");
+                    new mainPageStudent(this);
+                    this.setVisible(false);
                     break;
                 case "admin":
                     System.out.println("ADMIN");
