@@ -6,7 +6,7 @@ public class main {
 		new Login();
 		//new mainPageStudent();
 	 	//new grades();
-	 
+	 	//new mainPageAdmin();
    
  	}
  }

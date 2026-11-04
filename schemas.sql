@@ -1,6 +1,6 @@
 create table if not exists login (
 	login_id int generated always as identity primary key,
-	username varchar(50) not null,
+	username varchar(50) not null unique,
 	passwords varchar(50) not null,
 	roles varchar(50)not null
 );
@@ -63,6 +63,3 @@ create table if not exists courses(
 	course_name varchar (50)
 );
 
-
-insert into login (username, passwords, roles) values
-('admin', 'admin123', 'admin');

@@ -26,6 +26,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
     JButton ProfileButton;
     JButton logoutButton;
     JButton settingsButton;
+    JButton createAccount;
 
     public mainPageAdmin(Login logINS) {
         this.loginref = logINS;
@@ -51,6 +52,16 @@ class mainPageAdmin extends JFrame implements ActionListener {
         ProfileButton.setFocusable(false);
         ProfileButton.setText("PROFILE");
         ProfileButton.addActionListener(this);
+
+        createAccount = new JButton();
+        createAccount.setBounds(10, 80, 55, 20);
+        createAccount.setBorder(null);
+        createAccount.setBackground(new Color(0, 0, 98));
+        createAccount.setForeground(Color.WHITE);
+        createAccount.setFont(new Font("Arial", Font.PLAIN, 6));
+        createAccount.setFocusable(false);
+        createAccount.setText("ADD ACCOUNT");
+        createAccount.addActionListener(this);
 
         settingsButton = new JButton();
         settingsButton.setBounds(150, 80, 55, 20);
@@ -79,6 +90,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
         bottomRightNav.add(ProfileButton);
         bottomRightNav.add(settingsButton);
         bottomRightNav.add(logoutButton);
+        bottomRightNav.add(createAccount);
 
         topNav = new JPanel();
         topNav.setLayout(new BorderLayout());
@@ -163,6 +175,14 @@ class mainPageAdmin extends JFrame implements ActionListener {
         }
         if (e.getSource() == settingsButton) {
             System.out.println("settings");
+        }
+        if (e.getSource() == createAccount) {
+        	newAccount addAcc = new newAccount(this);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(addAcc, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == GradeButton) {
         	adminGrades Agrade = new adminGrades(this);
