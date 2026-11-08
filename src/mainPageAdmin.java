@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 class mainPageAdmin extends JFrame implements ActionListener {
-    Login loginref;
+    //Login loginref;
     JPanel topNav;
     JPanel bottomRightNav;
     JPanel leftNav;
@@ -28,8 +28,8 @@ class mainPageAdmin extends JFrame implements ActionListener {
     JButton settingsButton;
     JButton createAccount;
 
-    public mainPageAdmin(Login logINS) {
-        this.loginref = logINS;
+    public mainPageAdmin(/*Login logINS*/) {
+        //this.loginref = logINS;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
@@ -171,7 +171,12 @@ class mainPageAdmin extends JFrame implements ActionListener {
             this.setVisible(false);
         }
         if (e.getSource() == ProfileButton) {
-            System.out.println("profile");
+            adminProfile adprof = new adminProfile(this);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(adprof, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == settingsButton) {
             System.out.println("settings");

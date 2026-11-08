@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 class mainPageStudent extends JFrame implements ActionListener {
-    Login loginref;
+    //Login loginref;
     JPanel topNav;
     JPanel bottomRightNav;
     JPanel leftNav;
@@ -27,8 +27,8 @@ class mainPageStudent extends JFrame implements ActionListener {
     JButton logoutButton;
     JButton settingsButton;
 
-    public mainPageStudent(Login logINS ) {
-        this.loginref = logINS;
+    public mainPageStudent(/*Login logINS*/ ) {
+        //this.loginref = logINS;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
@@ -159,7 +159,12 @@ class mainPageStudent extends JFrame implements ActionListener {
             this.setVisible(false);
         }
         if (e.getSource() == ProfileButton) {
-            System.out.println("profile");
+            profile sprofile = new profile(this);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(sprofile, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == settingsButton) {
             System.out.println("settings");
