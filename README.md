@@ -18,3 +18,6 @@ student registration to accept or delete it from the Enrollment page. The
 class schedule page reads saved schedule entries from the database; if the
 signed-in student has none, it shows a clearly labeled sample preview using
 those same subjects.
+
+The Settings page is role-specific: students can change their SIMS password,
+and administrators can add courses or remove courses that are not in use.

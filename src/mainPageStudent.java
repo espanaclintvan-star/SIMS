@@ -169,7 +169,12 @@ class mainPageStudent extends JFrame implements ActionListener {
             mainPanel.repaint();
         }
         if (e.getSource() == settingsButton) {
-            System.out.println("settings");
+            SettingsPage settings = new SettingsPage(false, username);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(settings, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == GradeButton) {
             grades grade = new grades(this);

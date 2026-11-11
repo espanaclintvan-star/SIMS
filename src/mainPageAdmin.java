@@ -180,7 +180,12 @@ class mainPageAdmin extends JFrame implements ActionListener {
             mainPanel.repaint();
         }
         if (e.getSource() == settingsButton) {
-            System.out.println("settings");
+            SettingsPage settings = new SettingsPage(true, null);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(settings, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == createAccount) {
         	newAccount addAcc = new newAccount(this);
