@@ -25,10 +25,10 @@ public class grades extends JPanel implements ActionListener{
 
         String [] TColumn = {"COURSE", "GRADE"};
         Object[][] data = {
-            {"Course1",1.25}, 
-            {"Course2", 3.00}, 
-            {"Course3", 2.00},
-            {"Course4 ", 4.00}};
+            {"Programming Fundamentals", 1.25},
+            {"Database Management Systems", 3.00},
+            {"Web Development", 2.00},
+            {"Computer Networks", 4.00}};
 
         double ave = 0 ;
         for (int i=0; i<data.length; i++) {

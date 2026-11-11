@@ -23,6 +23,26 @@ create table if not exists AdminInfo(
 	login_id int,
 	foreign key (login_id) references login(login_id)
 );
+
+create table if not exists courses(
+	course_id int generated always as identity primary key,
+	course_name varchar (50)
+);
+
+INSERT INTO courses (course_name)
+SELECT subjects.course_name
+FROM (VALUES
+	('Programming Fundamentals'),
+	('Database Management Systems'),
+	('Web Development'),
+	('Computer Networks')
+) AS subjects(course_name)
+WHERE NOT EXISTS (
+	SELECT 1
+	FROM courses
+	WHERE LOWER(courses.course_name) = LOWER(subjects.course_name)
+);
+
 create table if not exists  grades(
 	grade_id int generated always as identity primary key,
 	student_id int,
@@ -58,8 +78,14 @@ create table if not exists schedules(
 	foreign key (course_id) references courses(course_id)
 );
 
-create table if not exists courses(
-	course_id int generated always as identity primary key,
-	course_name varchar (50)
-);
-
+WITH missing_students AS (
+	SELECT l.login_id, ROW_NUMBER() OVER (ORDER BY l.login_id) AS row_number
+	FROM login l
+	LEFT JOIN StudentsInfo s ON s.login_id = l.login_id
+	WHERE l.roles = 'student' AND s.login_id IS NULL
+), next_student_id AS (
+	SELECT COALESCE(MAX(student_id), 0) AS max_id FROM StudentsInfo
+)
+INSERT INTO StudentsInfo (student_id, login_id)
+SELECT next_student_id.max_id + missing_students.row_number, missing_students.login_id
+FROM missing_students CROSS JOIN next_student_id;

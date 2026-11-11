@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch SIMS",
+      "request": "launch",
+      "mainClass": "main",
+      "projectName": "SIMS",
+      "classPaths": [
+        "$Auto",
+        "lib/postgresql-42.7.14.jar"
+      ]
+    }
+  ]
+}

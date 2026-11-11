@@ -3,7 +3,7 @@
   "version": "1.0.0",
   
 "scripts": {
-  "gui": "nodemon --watch src --ext java --exec \"javac -d bin src/*.java && java -cp bin main\""
+  "gui": "nodemon --watch src --ext java --exec \"javac -cp lib/postgresql-42.7.14.jar -d bin src/*.java && java -cp bin;lib/postgresql-42.7.14.jar main\""
 
 },
   "keywords": [],
@@ -14,4 +14,3 @@
     "nodemon": "^3.1.14"
   }
 }
-

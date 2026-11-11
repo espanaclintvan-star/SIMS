@@ -32,7 +32,8 @@ class mainPageAdmin extends JFrame implements ActionListener {
         //this.loginref = logINS;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 500);
+        setSize(1100, 720);
+        setMinimumSize(new Dimension(900, 600));
         setLayout(new BorderLayout(5, 5));
         logo = new ImageIcon("logo_edited.png");
 
@@ -86,7 +87,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
         bottomRightNav = new JPanel();
         bottomRightNav.setLayout(null);
         bottomRightNav.setPreferredSize(new Dimension(300, 0));
-        bottomRightNav.setBackground(Color.MAGENTA);
+        bottomRightNav.setBackground(new Color(20, 42, 84));
         bottomRightNav.add(ProfileButton);
         bottomRightNav.add(settingsButton);
         bottomRightNav.add(logoutButton);
@@ -95,7 +96,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
         topNav = new JPanel();
         topNav.setLayout(new BorderLayout());
         topNav.setPreferredSize(new Dimension(0, 120));
-        topNav.setBackground(Color.GRAY);
+        topNav.setBackground(new Color(20, 42, 84));
         topNav.add(MLogo, BorderLayout.WEST);
         topNav.add(bottomRightNav, BorderLayout.EAST);
         topNav.add(name, BorderLayout.CENTER);
@@ -115,7 +116,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
         ClearanceButton.setBounds(5, 110, 160, 50);
         ClearanceButton.setBackground(new Color(0, 0, 98));
         ClearanceButton.setBorder(null);
-        ClearanceButton.setText("CLEARNACE");
+        ClearanceButton.setText("CLEARANCE");
         ClearanceButton.setFocusable(false);
         ClearanceButton.setForeground(Color.WHITE);
         ClearanceButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -143,7 +144,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         leftNav = new JPanel();
         leftNav.setPreferredSize(new Dimension(200, 0));
-        leftNav.setBackground(Color.GRAY);
+        leftNav.setBackground(new Color(20, 42, 84));
         leftNav.setLayout(null);
         leftNav.add(GradeButton);
         leftNav.add(ClearanceButton);
@@ -152,7 +153,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
         add(leftNav, BorderLayout.WEST);
 
         mainPanel = new JPanel();
-        mainPanel.setBackground(Color.GREEN);
+        mainPanel.setBackground(new Color(244, 247, 252));
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -206,10 +207,20 @@ class mainPageAdmin extends JFrame implements ActionListener {
             mainPanel.repaint();
         }
         if (e.getSource() == ScheduleButton) {
-            System.out.println("sched");
+            AcademicDataPage schedule = new AcademicDataPage(null, true, AcademicDataPage.PageType.SCHEDULE);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(schedule, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == EnrollmentButton) {
-            System.out.println("enrollment");
+            AcademicDataPage enrollment = new AcademicDataPage(null, true, AcademicDataPage.PageType.ENROLLMENT);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(enrollment, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
 
     }
