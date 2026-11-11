@@ -13,6 +13,8 @@ explicit Java launch configuration, which also includes the PostgreSQL driver.
 
 The enrollment page seeds four sample subjects into the database when the app
 starts, without duplicating them on later launches. The sample course names
-match the subjects shown on the Grades page. The class schedule page reads
-saved schedule entries from the database; if the signed-in student has none,
-it shows a clearly labeled sample preview using those same subjects.
+match the subjects shown on the Grades page. Administrators can select a
+student registration to accept or delete it from the Enrollment page. The
+class schedule page reads saved schedule entries from the database; if the
+signed-in student has none, it shows a clearly labeled sample preview using
+those same subjects.

@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -47,6 +49,8 @@ class AcademicDataPage extends JPanel implements ActionListener {
     private final JLabel summary;
     private final JLabel message;
     private final JButton actionButton;
+    private final JButton acceptButton;
+    private final JButton deleteButton;
     private final JTextField searchField;
     private final transient TableRowSorter<DefaultTableModel> sorter;
     private boolean sampleScheduleDisplayed;
@@ -108,7 +112,7 @@ class AcademicDataPage extends JPanel implements ActionListener {
         content.add(toolbar, BorderLayout.NORTH);
 
         String[] columns = pageType == PageType.ENROLLMENT
-                ? (administrator ? new String[] {"Student", "Course", "Status"}
+                ? (administrator ? new String[] {"Student", "Course", "Status", "Enrollment ID"}
                         : new String[] {"Course", "Status", "Course ID"})
                 : (administrator ? new String[] {"Student", "Course", "Date and time"}
                         : new String[] {"Course", "Date and time"});
@@ -132,7 +136,9 @@ class AcademicDataPage extends JPanel implements ActionListener {
         table.getTableHeader().setPreferredSize(new Dimension(0, 38));
         sorter = new TableRowSorter<DefaultTableModel>(tableModel);
         table.setRowSorter(sorter);
-        if (pageType == PageType.ENROLLMENT && !administrator) {
+        if (pageType == PageType.ENROLLMENT && administrator) {
+            table.removeColumn(table.getColumnModel().getColumn(3));
+        } else if (pageType == PageType.ENROLLMENT) {
             table.removeColumn(table.getColumnModel().getColumn(2));
         }
 
@@ -151,7 +157,24 @@ class AcademicDataPage extends JPanel implements ActionListener {
         styleButton(actionButton, true);
         actionButton.addActionListener(this);
         actionButton.setVisible(pageType == PageType.ENROLLMENT && !administrator);
-        footer.add(actionButton, BorderLayout.EAST);
+        JPanel footerActions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        footerActions.setOpaque(false);
+        footerActions.add(actionButton);
+        acceptButton = new JButton("Accept selected");
+        styleButton(acceptButton, true);
+        acceptButton.addActionListener(this);
+        acceptButton.setVisible(pageType == PageType.ENROLLMENT && administrator);
+        footerActions.add(acceptButton);
+        deleteButton = new JButton("Delete selected");
+        styleButton(deleteButton, false);
+        deleteButton.setForeground(new Color(164, 47, 47));
+        deleteButton.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 180, 180)),
+                BorderFactory.createEmptyBorder(8, 13, 8, 13)));
+        deleteButton.addActionListener(this);
+        deleteButton.setVisible(pageType == PageType.ENROLLMENT && administrator);
+        footerActions.add(deleteButton);
+        footer.add(footerActions, BorderLayout.EAST);
         content.add(footer, BorderLayout.SOUTH);
         add(content, BorderLayout.CENTER);
 
@@ -256,7 +279,7 @@ class AcademicDataPage extends JPanel implements ActionListener {
 
     private void loadAllEnrollments(Connection connection) throws SQLException {
         String sql = "SELECT COALESCE(s.s_name, l.username, 'Student ' || e.student_id) AS student_name, "
-                + "c.course_name, e.status FROM enrollments e "
+                + "c.course_name, e.status, e.enrollment_id FROM enrollments e "
                 + "LEFT JOIN StudentsInfo s ON s.student_id = e.student_id "
                 + "LEFT JOIN login l ON l.login_id = s.login_id "
                 + "JOIN courses c ON c.course_id = e.course_id ORDER BY student_name, c.course_name";
@@ -266,7 +289,8 @@ class AcademicDataPage extends JPanel implements ActionListener {
                 tableModel.addRow(new Object[] {
                         results.getString("student_name"),
                         results.getString("course_name"),
-                        results.getString("status")
+                        results.getString("status"),
+                        Integer.valueOf(results.getInt("enrollment_id"))
                 });
             }
         }
@@ -407,10 +431,81 @@ class AcademicDataPage extends JPanel implements ActionListener {
                 : "You already have a registration for this course.");
     }
 
+    private Integer getSelectedEnrollmentId() {
+        int selectedViewRow = table.getSelectedRow();
+        if (selectedViewRow < 0) {
+            message.setForeground(new Color(170, 95, 25));
+            message.setText("Select a student enrollment from the table first.");
+            return null;
+        }
+        int modelRow = table.convertRowIndexToModel(selectedViewRow);
+        return (Integer) tableModel.getValueAt(modelRow, 3);
+    }
+
+    private void acceptSelectedEnrollment() {
+        Integer enrollmentId = getSelectedEnrollmentId();
+        if (enrollmentId == null) {
+            return;
+        }
+        String sql = "UPDATE enrollments SET status = 'Accepted' "
+                + "WHERE enrollment_id = ? AND LOWER(status) = 'pending'";
+        try (Connection connection = database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, enrollmentId.intValue());
+            if (statement.executeUpdate() == 0) {
+                message.setForeground(new Color(170, 95, 25));
+                message.setText("This enrollment is no longer pending. Refresh the list and try again.");
+                loadData();
+                return;
+            }
+            loadData();
+            message.setForeground(new Color(38, 125, 75));
+            message.setText("Enrollment accepted.");
+        } catch (SQLException exception) {
+            message.setForeground(new Color(170, 45, 45));
+            message.setText("Could not accept enrollment: " + exception.getMessage());
+        }
+    }
+
+    private void deleteSelectedEnrollment() {
+        Integer enrollmentId = getSelectedEnrollmentId();
+        if (enrollmentId == null) {
+            return;
+        }
+        int choice = JOptionPane.showConfirmDialog(this,
+                "Delete this student's course enrollment? This cannot be undone.",
+                "Confirm enrollment deletion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (choice != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        String sql = "DELETE FROM enrollments WHERE enrollment_id = ?";
+        try (Connection connection = database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, enrollmentId.intValue());
+            if (statement.executeUpdate() == 0) {
+                message.setForeground(new Color(170, 95, 25));
+                message.setText("This enrollment is no longer available. Refresh the list and try again.");
+                loadData();
+                return;
+            }
+            loadData();
+            message.setForeground(new Color(38, 125, 75));
+            message.setText("Enrollment deleted.");
+        } catch (SQLException exception) {
+            message.setForeground(new Color(170, 45, 45));
+            message.setText("Could not delete enrollment: " + exception.getMessage());
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == actionButton) {
             enrollInSelectedCourse();
+        } else if (event.getSource() == acceptButton) {
+            acceptSelectedEnrollment();
+        } else if (event.getSource() == deleteButton) {
+            deleteSelectedEnrollment();
         } else {
             loadData();
         }
