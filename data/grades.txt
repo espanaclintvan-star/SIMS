@@ -1,0 +1,5 @@
+2024-0001|Mathematics|95
+2024-0001|Science|90
+2024-0001|English|88
+2024-0002|Mathematics|88
+2024-0002|Science|91

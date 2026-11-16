@@ -1,0 +1,4 @@
+ADMIN001|admin@sims.com|admin123|admin|System Administrator|N/A|Active
+2024-0001|juan@sims.com|student123|student|Juan Dela Cruz|1st Year|Regular
+2024-0002|maria@sims.com|student123|student|Maria Santos|2nd Year|Regular
+2026-0001|s@sims.com|s|student|ako|3rd|regular

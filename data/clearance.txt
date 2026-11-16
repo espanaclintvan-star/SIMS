@@ -1,0 +1,4 @@
+2024-0001|Library|Cleared
+2024-0001|Accounting|Not Cleared
+2024-0001|Registrar|Not Cleared
+2024-0002|Library|Cleared

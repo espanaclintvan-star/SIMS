@@ -1,0 +1,6 @@
+2024-0001|Mathematics 101|Enrolled
+2024-0001|Science 101|Enrolled
+2024-0001|English 101|Pending
+2024-0002|Mathematics 201|Enrolled
+2026-0001|math|pending
+2026-0001|english|enrolled

@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 class mainPageAdmin extends JFrame implements ActionListener {
     //Login loginref;
@@ -25,15 +27,32 @@ class mainPageAdmin extends JFrame implements ActionListener {
     JButton EnrollmentButton;
     JButton ProfileButton;
     JButton logoutButton;
-    JButton settingsButton;
+    JButton deleteButton;
     JButton createAccount;
 
-    public mainPageAdmin(/*Login logINS*/) {
+    String adminId = "";   // ID of the logged-in admin
+
+    public mainPageAdmin() {
+        this("");
+    }
+
+    public mainPageAdmin(String adminId) {
+        this.adminId = adminId;
         //this.loginref = logINS;
+        
+        UIManager.put("OptionPane.background", new Color(120, 0, 98));
+    	UIManager.put("Panel.background", new Color(120, 0, 98));
+    	UIManager.put("OptionPane.messageForeground", Color.WHITE);
+    	UIManager.put("OptionPane.messageFont", new Font("Arial", Font.BOLD, 14));
+    	
+    	UIManager.put("Button.background", new Color(0, 0, 98));
+    	UIManager.put("Button.foreground", Color.WHITE);
+    	UIManager.put("Button.focus", new Color(0, 0, 0, 0));
+    	UIManager.put("Button.border", BorderFactory.createEmptyBorder(5, 15, 5, 15));
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
-        setLayout(new BorderLayout(5, 5));
+        setLayout(new BorderLayout(2, 2));
         logo = new ImageIcon("logo_edited.png");
 
         MLogo = new JLabel(logo);
@@ -44,39 +63,39 @@ class mainPageAdmin extends JFrame implements ActionListener {
         name.setFont(new Font("Arial", Font.BOLD, 20));
 
         ProfileButton = new JButton();
-        ProfileButton.setBounds(80, 80, 55, 20);
+        ProfileButton.setBounds(150, 80, 55, 20);
         ProfileButton.setBorder(null);
-        ProfileButton.setBackground(new Color(0, 0, 98));
+        ProfileButton.setBackground(new Color(120, 0, 98));
         ProfileButton.setForeground(Color.WHITE);
         ProfileButton.setFont(new Font("Arial", Font.PLAIN, 10));
         ProfileButton.setFocusable(false);
         ProfileButton.setText("PROFILE");
         ProfileButton.addActionListener(this);
 
+        deleteButton = new JButton();
+        deleteButton.setBounds(10, 80, 55, 20);
+        deleteButton.setBorder(null);
+        deleteButton.setBackground(new Color(120, 0, 98));
+        deleteButton.setForeground(Color.WHITE);
+        deleteButton.setFont(new Font("Arial", Font.PLAIN, 6));
+        deleteButton.setFocusable(false);
+        deleteButton.setText("DELETE ACC");
+        deleteButton.addActionListener(this);
+
         createAccount = new JButton();
-        createAccount.setBounds(10, 80, 55, 20);
+        createAccount.setBounds(80, 80, 55, 20);
         createAccount.setBorder(null);
-        createAccount.setBackground(new Color(0, 0, 98));
+        createAccount.setBackground(new Color(120, 0, 98));
         createAccount.setForeground(Color.WHITE);
         createAccount.setFont(new Font("Arial", Font.PLAIN, 6));
         createAccount.setFocusable(false);
         createAccount.setText("ADD ACCOUNT");
         createAccount.addActionListener(this);
 
-        settingsButton = new JButton();
-        settingsButton.setBounds(150, 80, 55, 20);
-        settingsButton.setBorder(null);
-        settingsButton.setBackground(new Color(0, 0, 98));
-        settingsButton.setForeground(Color.WHITE);
-        settingsButton.setFont(new Font("Arial", Font.PLAIN, 10));
-        settingsButton.setFocusable(false);
-        settingsButton.setText("SETTINGS");
-        settingsButton.addActionListener(this);
-
         logoutButton = new JButton();
         logoutButton.setBounds(220, 80, 55, 20);
         logoutButton.setBorder(null);
-        logoutButton.setBackground(new Color(0, 0, 98));
+        logoutButton.setBackground(new Color(120, 0, 98));
         logoutButton.setForeground(Color.WHITE);
         logoutButton.setFont(new Font("Arial", Font.PLAIN, 10));
         logoutButton.setFocusable(false);
@@ -85,17 +104,17 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         bottomRightNav = new JPanel();
         bottomRightNav.setLayout(null);
+        bottomRightNav.setBackground(new Color(0,0,98));
         bottomRightNav.setPreferredSize(new Dimension(300, 0));
-        bottomRightNav.setBackground(Color.MAGENTA);
         bottomRightNav.add(ProfileButton);
-        bottomRightNav.add(settingsButton);
         bottomRightNav.add(logoutButton);
         bottomRightNav.add(createAccount);
+        bottomRightNav.add(deleteButton);
 
         topNav = new JPanel();
         topNav.setLayout(new BorderLayout());
         topNav.setPreferredSize(new Dimension(0, 120));
-        topNav.setBackground(Color.GRAY);
+        topNav.setBackground(new Color(0,0,98));
         topNav.add(MLogo, BorderLayout.WEST);
         topNav.add(bottomRightNav, BorderLayout.EAST);
         topNav.add(name, BorderLayout.CENTER);
@@ -103,7 +122,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         GradeButton = new JButton();
         GradeButton.setBounds(5, 35, 160, 50);
-        GradeButton.setBackground(new Color(0, 0, 98));
+        GradeButton.setBackground(new Color(120, 0, 98));
         GradeButton.setBorder(null);
         GradeButton.setText("GRADES");
         GradeButton.setFocusable(false);
@@ -113,7 +132,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         ClearanceButton = new JButton();
         ClearanceButton.setBounds(5, 110, 160, 50);
-        ClearanceButton.setBackground(new Color(0, 0, 98));
+        ClearanceButton.setBackground(new Color(120, 0, 98));
         ClearanceButton.setBorder(null);
         ClearanceButton.setText("CLEARNACE");
         ClearanceButton.setFocusable(false);
@@ -123,7 +142,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         ScheduleButton = new JButton();
         ScheduleButton.setBounds(5, 185, 160, 50);
-        ScheduleButton.setBackground(new Color(0, 0, 98));
+        ScheduleButton.setBackground(new Color(120, 0, 98));
         ScheduleButton.setBorder(null);
         ScheduleButton.setText("SCHEDULE");
         ScheduleButton.setFocusable(false);
@@ -133,7 +152,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         EnrollmentButton = new JButton();
         EnrollmentButton.setBounds(5, 260, 160, 50);
-        EnrollmentButton.setBackground(new Color(0, 0, 98));
+        EnrollmentButton.setBackground(new Color(120, 0, 98));
         EnrollmentButton.setBorder(null);
         EnrollmentButton.setText("ENROLLMENT");
         EnrollmentButton.setFocusable(false);
@@ -143,7 +162,7 @@ class mainPageAdmin extends JFrame implements ActionListener {
 
         leftNav = new JPanel();
         leftNav.setPreferredSize(new Dimension(200, 0));
-        leftNav.setBackground(Color.GRAY);
+        leftNav.setBackground(new Color(0,0,98));
         leftNav.setLayout(null);
         leftNav.add(GradeButton);
         leftNav.add(ClearanceButton);
@@ -152,11 +171,11 @@ class mainPageAdmin extends JFrame implements ActionListener {
         add(leftNav, BorderLayout.WEST);
 
         mainPanel = new JPanel();
-        mainPanel.setBackground(Color.GREEN);
+            mainPanel.setBackground(new Color(0,0,98));
 
         add(mainPanel, BorderLayout.CENTER);
 
-        getContentPane().setBackground(new Color(0, 0, 98));
+        getContentPane().setBackground(new Color(255, 255, 255));
         setTitle("Student Information Management System");
         setIconImage(logo.getImage());
 
@@ -178,14 +197,19 @@ class mainPageAdmin extends JFrame implements ActionListener {
             mainPanel.revalidate();
             mainPanel.repaint();
         }
-        if (e.getSource() == settingsButton) {
-            System.out.println("settings");
-        }
         if (e.getSource() == createAccount) {
         	newAccount addAcc = new newAccount(this);
             mainPanel.removeAll();
             mainPanel.setLayout(new BorderLayout());
             mainPanel.add(addAcc, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        }
+        if (e.getSource() == deleteButton) {
+        	deleteAccount delAcc = new deleteAccount(this);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(delAcc, BorderLayout.CENTER);
             mainPanel.revalidate();
             mainPanel.repaint();
         }
@@ -206,10 +230,20 @@ class mainPageAdmin extends JFrame implements ActionListener {
             mainPanel.repaint();
         }
         if (e.getSource() == ScheduleButton) {
-            System.out.println("sched");
+        	adminSchedule ASchedule = new adminSchedule(this);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(ASchedule, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
         if (e.getSource() == EnrollmentButton) {
-            System.out.println("enrollment");
+            adminEnrollment AEnrollment = new adminEnrollment(this);
+            mainPanel.removeAll();
+            mainPanel.setLayout(new BorderLayout());
+            mainPanel.add(AEnrollment, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
 
     }
